@@ -40,6 +40,7 @@
                                     <th>Dokter Spesialis</th>
                                     <th>Unit</th>
                                     <th>Status Pegawai</th>
+                                    <th>Aktif</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -53,6 +54,11 @@
                                         <td><?= $pr['spes_nama']; ?></td>
                                         <td><?= $pr['uk_nama']; ?></td>
                                         <td><?= $pr['dok_sts_peg']; ?></td>
+                                        <td><?php if ($pr['dok_ket'] == 'Aktif') {
+                                                echo '<span class="left badge badge-success">Aktif</span>';
+                                            } else {
+                                                echo '<span class="left badge badge-danger">Tidak Aktif</span>';
+                                            } ?></td>
                                         <td>
                                             <?php $cek = $this->db->get_where('t_user', ['us_ket' => $pr['dok_id']])->row_array();
                                             if ($cek) {

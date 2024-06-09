@@ -282,11 +282,10 @@
                                                                 <td>
                                                                     <select class="form-control" name="status" required>
                                                                         <option value="">Pilih</option>
-                                                                        <option value="Islam">Belum Menikah</option>
-                                                                        <option value="Kristen">Menikah</option>
-                                                                        <option value="Katholik">Duda</option>
-                                                                        <option value="Hindu">Janda</option>
-                                                                        <option value="Budha">Bawah Umur</option>
+                                                                        <option value="Belum Menikah">Belum Menikah</option>
+                                                                        <option value="Menikah">Menikah</option>
+                                                                        <option value="Duda">Duda</option>
+                                                                        <option value="Janda">Janda</option>
                                                                     </select>
                                                                 </td>
 

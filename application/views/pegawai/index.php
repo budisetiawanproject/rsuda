@@ -35,7 +35,10 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>NIP</th>
                                     <th>Nama Pegawai</th>
+                                    <th>Kategori</th>
+                                    <th>Aktif</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -44,16 +47,27 @@
                                 foreach ($pegawai as $pr) : ?>
                                     <tr>
                                         <td><?= $no; ?></td>
+                                        <td><?= $pr['peg_nip']; ?></td>
                                         <td><?= $pr['peg_gelar_depan'] . ' ' . $pr['peg_nama'] . ' ' . $pr['peg_gelar_belakang']; ?></td>
+                                        <td><?= $pr['kp_nama']; ?></td>
+                                        <td>
+                                        <td><?php if ($pr['peg_ket'] == 'Aktif') {
+                                                echo '<span class="left badge badge-success">Aktif</span>';
+                                            } else {
+                                                echo '<span class="left badge badge-danger">Tidak Aktif</span>';
+                                            } ?></td>
+                                        </td>
                                         <td>
                                             <?php $cek = $this->db->get_where('t_user', ['us_ket' => $pr['peg_id']])->row_array();
                                             if ($cek) {
                                             } else { ?>
                                                 <button class="btn btn-warning btn-sm mr-1" type="button" data-toggle="modal" data-target=".bd-example-modal-lg-<?= $pr['peg_id']; ?>"><i class="fas fa-user"></i></button>
                                             <?php } ?>
-                                            <button class="btn btn-success btn-sm mr-1" type="button" data-toggle="modal" data-target=".bd-example-modal-lg-<?= $pr['peg_id']; ?>"><i class="fa fa-random"></i></button>
+                                            <a href="<?= base_url('pegawai/edit/') . $pr['peg_id'] ?>" class="btn btn-success btn-sm mr-1" type="button"><i class="fas fa-edit"></i></a>
+                                            <button class="btn btn-danger btn-sm mr-1" type="button" data-toggle="modal" data-target=".bd-example-modal-lg-del<?= $pr['id_singkatan']; ?>"><i class="fas fa-trash"></i></button>
                                         </td>
                                     </tr>
+
 
                                     <div class="modal fade bd-example-modal-lg-<?= $pr['peg_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">

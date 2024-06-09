@@ -21,7 +21,7 @@ class Pegawai extends CI_Controller
         } else if ($data['user']['us_role_id'] == '1') {
             $data['session'] = $this->session->userdata('role');
             $data['akses'] = $this->db->get('t_role')->result_array();
-            $data['pegawai'] = $this->db->get('t_pegawai')->result_array();
+            $data['pegawai'] = $this->db->get('v_pegawai')->result_array();
 
             $this->load->view('templates/head');
             $this->load->view('templates/header');
@@ -48,6 +48,28 @@ class Pegawai extends CI_Controller
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar', $data);
             $this->load->view('pegawai/tambah');
+            $this->load->view('templates/footertable');
+        }
+    }
+
+    public function edit()
+    {
+        $data['code'] = $this->session->userdata('actid');
+        $data['dec'] = $this->secure->decrypt_url($data['code']);
+        $data['user'] = $this->db->get_where('v_user', ['us_id' => $data['dec']])->row_array();
+        if (empty($data['user'])) {
+            redirect('auth/logout');
+        } else if ($data['user']['us_role_id'] == '1') {
+            $data['session'] = $this->session->userdata('role');
+            $data['provinsi'] = $this->m_wilayah->get_all_provinsi();
+            $data['kp'] = $this->db->get('t_kategori_pegawai')->result_array();
+            $page = $this->uri->segment(3);
+            $data['peg'] = $this->db->get_where('v_pegawai', ['peg_id' => $page])->row_array();
+
+            $this->load->view('templates/headtable');
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('pegawai/edit');
             $this->load->view('templates/footertable');
         }
     }
@@ -99,6 +121,7 @@ class Pegawai extends CI_Controller
                 'peg_email' => htmlspecialchars($this->input->post('email')),
                 'peg_tgl_gabung' => htmlspecialchars($this->input->post('tglgabung')),
                 'peg_sts_peg' => htmlspecialchars($this->input->post('statuspeg')),
+                'peg_ket' => 'Aktif',
             ];
             $this->db->set($data);
             $this->db->insert('t_pegawai');
@@ -110,46 +133,97 @@ class Pegawai extends CI_Controller
     }
 
 
-    public function tambah2()
+    public function prosesedit()
     {
-        $data['user'] = $this->db->get_where('tbl_user', ['username' => $this->session->userdata('user')])->row_array();
-        if ($data['user']['username'] == '') {
+        $data['code'] = $this->session->userdata('actid');
+        $data['dec'] = $this->secure->decrypt_url($data['code']);
+        $data['user'] = $this->db->get_where('v_user', ['us_id' => $data['dec']])->row_array();
+        if (empty($data['user'])) {
             redirect('auth/logout');
-        } else {
-            $singkatan = $this->input->post('singkatan');
-            $input = [
-                'singkatan'          => $singkatan
-            ];
-            $this->db->set($input);
-            $this->db->insert('tbl_singkatan');
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-                            Data Berhasil Tambah
-                            </div>');
-            redirect('singkatan');
+        } else if ($data['user']['us_role_id'] == '1') {
+            $w = date('YmdHis');
+            $kode = $this->input->post('id');
+
+            $provb = $this->input->post('provb');
+            $kabb = $this->input->post('kabb');
+            $kecb = $this->input->post('kecb');
+            $kelb = $this->input->post('kelb');
+
+
+            $provnama = $this->db->get_where('wilayah_provinsi', ['id' => $provb])->row_array();
+            $kabnama = $this->db->get_where('wilayah_kabupaten', ['id' => $kabb])->row_array();
+            $kecnama = $this->db->get_where('wilayah_kecamatan', ['id' => $kecb])->row_array();
+            $kelnama = $this->db->get_where('wilayah_desa', ['id' => $kelb])->row_array();
+
+            if ($provnama) {
+                $update = [
+                    'kp_id' => htmlspecialchars($this->input->post('kp')),
+                    'peg_nik' => htmlspecialchars($this->input->post('nik')),
+                    'peg_nip' => htmlspecialchars($this->input->post('nip')),
+                    'peg_nama' => htmlspecialchars($this->input->post('nama')),
+                    'peg_gelar_depan' => htmlspecialchars($this->input->post('gelardepan')),
+                    'peg_gelar_belakang' => htmlspecialchars($this->input->post('gelarbelakang')),
+                    'peg_tempat_lahir' => htmlspecialchars($this->input->post('tempatlahir')),
+                    'peg_tgl_lahir' => htmlspecialchars($this->input->post('tgllahir')),
+                    'peg_jenkel' => htmlspecialchars($this->input->post('jenkel')),
+                    'peg_prov' => $provnama['nama'],
+                    'peg_kab' => $kabnama['nama'],
+                    'peg_kec' => $kecnama['nama'],
+                    'peg_kel' => $kelnama['nama'],
+                    'peg_alamat' => htmlspecialchars($this->input->post('alamat')),
+                    'peg_agama' => $this->input->post('agama'),
+                    'peg_status' => $this->input->post('status'),
+                    'peg_nohp' => htmlspecialchars($this->input->post('nohp')),
+                    'peg_pendidikan' => htmlspecialchars($this->input->post('pendidikan')),
+                    'peg_email' => htmlspecialchars($this->input->post('email')),
+                    'peg_tgl_gabung' => htmlspecialchars($this->input->post('tglgabung')),
+                    'peg_sts_peg' => htmlspecialchars($this->input->post('statuspeg')),
+                    'peg_ket' => htmlspecialchars($this->input->post('ket')),
+                ];
+                $this->db->set($update);
+                $this->db->where(['peg_id' => $kode], 't_pegawai');
+                $this->db->update('t_pegawai');
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                                Data Berhasil Di Update
+                                </div>');
+                redirect('pegawai');
+            } else {
+                $update = [
+                    'kp_id' => htmlspecialchars($this->input->post('kp')),
+                    'peg_nik' => htmlspecialchars($this->input->post('nik')),
+                    'peg_nip' => htmlspecialchars($this->input->post('nip')),
+                    'peg_nama' => htmlspecialchars($this->input->post('nama')),
+                    'peg_gelar_depan' => htmlspecialchars($this->input->post('gelardepan')),
+                    'peg_gelar_belakang' => htmlspecialchars($this->input->post('gelarbelakang')),
+                    'peg_tempat_lahir' => htmlspecialchars($this->input->post('tempatlahir')),
+                    'peg_tgl_lahir' => htmlspecialchars($this->input->post('tgllahir')),
+                    'peg_jenkel' => htmlspecialchars($this->input->post('jenkel')),
+                    'peg_prov' => $provb,
+                    'peg_kab' => $kabb,
+                    'peg_kec' => $kecb,
+                    'peg_kel' => $kelb,
+                    'peg_alamat' => htmlspecialchars($this->input->post('alamat')),
+                    'peg_agama' => $this->input->post('agama'),
+                    'peg_status' => $this->input->post('status'),
+                    'peg_nohp' => htmlspecialchars($this->input->post('nohp')),
+                    'peg_pendidikan' => htmlspecialchars($this->input->post('pendidikan')),
+                    'peg_email' => htmlspecialchars($this->input->post('email')),
+                    'peg_tgl_gabung' => htmlspecialchars($this->input->post('tglgabung')),
+                    'peg_sts_peg' => htmlspecialchars($this->input->post('statuspeg')),
+                    'peg_ket' => htmlspecialchars($this->input->post('ket')),
+                ];
+                $this->db->set($update);
+                $this->db->where(['peg_id' => $kode], 't_pegawai');
+                $this->db->update('t_pegawai');
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                                Data Berhasil Di Update
+                                </div>');
+                redirect('pegawai');
+            }
         }
     }
 
-    public function edit()
-    {
-        $data['user'] = $this->db->get_where('tbl_user', ['username' => $this->session->userdata('user')])->row_array();
-        if ($data['user']['username'] == '') {
-            redirect('auth/logout');
-        } else {
-            $id = $this->input->post('id');
-            $singkatan = $this->input->post('singkatan');
-            $update = [
-                'singkatan'          => $singkatan
-            ];
-            $this->db->set($update);
-            $this->db->where(['id_singkatan' => $id], 'tbl_singkatan');
-            $this->db->update('tbl_singkatan');
 
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-                        Data Berhasil di Update
-                      </div>');
-            redirect('singkatan');
-        }
-    }
 
     public function hapus()
     {

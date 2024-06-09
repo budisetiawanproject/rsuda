@@ -163,6 +163,7 @@ class Dokter extends CI_Controller
                 'dok_email' => htmlspecialchars($this->input->post('email')),
                 'dok_tgl_gabung' => htmlspecialchars($this->input->post('tglgabung')),
                 'dok_sts_peg' => htmlspecialchars($this->input->post('statuspeg')),
+                'dok_ket' => 'Aktif',
             ];
             $this->db->set($data);
             $this->db->insert('t_dokter');
@@ -220,6 +221,7 @@ class Dokter extends CI_Controller
                     'dok_email' => htmlspecialchars($this->input->post('email')),
                     'dok_tgl_gabung' => htmlspecialchars($this->input->post('tglgabung')),
                     'dok_sts_peg' => htmlspecialchars($this->input->post('statuspeg')),
+                    'dok_ket' => htmlspecialchars($this->input->post('ket')),
                 ];
                 $this->db->set($update);
                 $this->db->where(['dok_id' => $kode], 't_dokter');
@@ -252,6 +254,7 @@ class Dokter extends CI_Controller
                     'dok_email' => htmlspecialchars($this->input->post('email')),
                     'dok_tgl_gabung' => htmlspecialchars($this->input->post('tglgabung')),
                     'dok_sts_peg' => htmlspecialchars($this->input->post('statuspeg')),
+                    'dok_ket' => htmlspecialchars($this->input->post('ket')),
                 ];
                 $this->db->set($update);
                 $this->db->where(['dok_id' => $kode], 't_dokter');

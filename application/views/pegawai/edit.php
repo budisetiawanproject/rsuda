@@ -31,9 +31,9 @@
                                 <div>
 
                                     <div class="card-body">
-                                        <form role="form" method="POST" action="<?= base_url('dokter/prosesedit'); ?>" enctype="multipart/form-data">
+                                        <form role="form" method="POST" action="<?= base_url('pegawai/prosesedit'); ?>" enctype="multipart/form-data">
                                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" style="display: none">
-                                            <input type="hidden" class="form-control" name="id" value="<?= $dr['dok_id'] ?>" required>
+                                            <input type="hidden" class="form-control" name="id" value="<?= $peg['peg_id'] ?>" required>
                                             <section class="content">
                                                 <div class="container-fluid">
                                                     <div class="row">
@@ -45,7 +45,7 @@
                                                                 </th>
                                                                 <td colspan="3">
                                                                     <h3 style="text-align: center;"><b>
-                                                                            FORMULIR DOKTER
+                                                                            FORMULIR PEGAWAI
                                                                         </b>
                                                                     </h3>
                                                                 </td>
@@ -59,13 +59,13 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>
-                                                                    Unit *
+                                                                    Kategori Pegawai *
                                                                 </td>
                                                                 <td class="col-4">
-                                                                    <select class="form-control" name="unit" required>
-                                                                        <option value="<?= $dr['uk_id'] ?>"><?= $dr['uk_nama'] ?></option>
-                                                                        <?php foreach ($unit as $u) : ?>
-                                                                            <option value="<?= $u['uk_id'] ?>"><?= $u['uk_nama'] ?></option>
+                                                                    <select class="form-control" name="kp" required>
+                                                                        <option value="<?= $peg['kp_id'] ?>"><?= $peg['kp_nama'] ?></option>
+                                                                        <?php foreach ($kp as $u) : ?>
+                                                                            <option value="<?= $u['kp_id'] ?>"><?= $u['kp_nama'] ?></option>
                                                                         <?php endforeach; ?>
                                                                     </select>
                                                                 </td>
@@ -74,9 +74,17 @@
                                                                 </td>
                                                                 <td class="col-4">
                                                                     <select class="form-control" name="pendidikan" required>
-                                                                        <option value="<?= $dr['dok_pendidikan'] ?>"><?= $dr['dok_pendidikan'] ?></option>
+                                                                        <option value="<?= $peg['peg_pendidikan'] ?>"><?= $peg['peg_pendidikan'] ?></option>
+                                                                        <option value="Tidak Sekolah">Tidak Sekolah</option>
+                                                                        <option value="TK">TK</option>
+                                                                        <option value="SD">SD</option>
+                                                                        <option value="SMP">SMP</option>
+                                                                        <option value="SMA">SMA</option>
+                                                                        <option value="D3">D3</option>
+                                                                        <option value="D4">D4</option>
                                                                         <option value="S1">S1</option>
                                                                         <option value="S2">S2</option>
+                                                                        <option value="S3">S3</option>
                                                                     </select>
                                                                 </td>
                                                             </tr>
@@ -85,14 +93,14 @@
                                                                     NIK
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" name="nik" value="<?= $dr['dok_nik'] ?>" required>
+                                                                    <input type="text" class="form-control" name="nik" maxlength="16" value="<?= $peg['peg_nik'] ?>" required>
                                                                     <?= form_error('nama', '<small class="text-danger">', '</small>') ?>
                                                                 </td>
                                                                 <td>
                                                                     Email
                                                                 </td>
                                                                 <td>
-                                                                    <input type="email" class="form-control" name="email" value="<?= $dr['dok_email'] ?>">
+                                                                    <input type="email" class="form-control" name="email" value="<?= $peg['peg_email'] ?>">
                                                                     <?= form_error('email', '<small class="text-danger">', '</small>') ?>
                                                                 </td>
                                                             </tr>
@@ -101,14 +109,14 @@
                                                                     NIP
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" name="nip" value="<?= $dr['dok_nip'] ?>">
+                                                                    <input type="text" class="form-control" name="nip" maxlength="18" value="<?= $peg['peg_nip'] ?>">
                                                                     <?= form_error('nama', '<small class="text-danger">', '</small>') ?>
                                                                 </td>
                                                                 <td>
                                                                     Tanggal Bergabung RS
                                                                 </td>
                                                                 <td>
-                                                                    <input type="date" class="form-control" name="tglgabung" value="<?= $dr['dok_tgl_gabung'] ?>">
+                                                                    <input type="date" class="form-control" name="tglgabung" value="<?= $peg['peg_tgl_gabung'] ?>">
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -116,27 +124,7 @@
                                                                     Nama Lengkap *
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" name="nama" value="<?= $dr['dok_nama'] ?>" required>
-                                                                    <?= form_error('nama', '<small class="text-danger">', '</small>') ?>
-                                                                </td>
-                                                                <td>
-                                                                    Spesialis *
-                                                                </td>
-                                                                <td>
-                                                                    <select class="form-control" name="sp" required>
-                                                                        <option value="<?= $dr['spes_id'] ?>"><?= $dr['spes_nama'] ?></option>
-                                                                        <?php foreach ($spesialis as $sp) : ?>
-                                                                            <option value="<?= $sp['spes_id'] ?>"><?= $sp['spes_nama'] ?></option>
-                                                                        <?php endforeach; ?>
-                                                                    </select>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Gelar Depan *
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" name="gelardepan" value="<?= $dr['dok_gelar_depan'] ?>" required>
+                                                                    <input type="text" class="form-control" name="nama" required value="<?= $peg['peg_nama'] ?>">
                                                                     <?= form_error('nama', '<small class="text-danger">', '</small>') ?>
                                                                 </td>
                                                                 <td>
@@ -144,7 +132,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <select class="form-control" name="statuspeg" required>
-                                                                        <option value="<?= $dr['dok_sts_peg'] ?>"><?= $dr['dok_sts_peg'] ?></option>
+                                                                        <option value="<?= $peg['peg_sts_peg'] ?>"><?= $peg['peg_sts_peg'] ?></option>
                                                                         <option value="PNS">PNS</option>
                                                                         <option value="PPPK">PPPK</option>
                                                                         <option value="Tenaga Kontrak">Tenaga Kontrak</option>
@@ -153,10 +141,11 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>
-                                                                    Gelar Belakang
+                                                                    Gelar Depan *
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" name="gelarbelakang" value="<?= $dr['dok_gelar_belakang'] ?>">
+                                                                    <input type="text" class="form-control" name="gelardepan" value="<?= $peg['peg_gelar_depan'] ?>">
+                                                                    <?= form_error('nama', '<small class="text-danger">', '</small>') ?>
                                                                 </td>
                                                                 <td>
                                                                     Aktif *
@@ -164,7 +153,7 @@
 
                                                                 <td>
                                                                     <select class="form-control" name="ket" required>
-                                                                        <option value="<?= $dr['dok_ket'] ?>"><?= $dr['dok_ket'] ?></option>
+                                                                        <option value="<?= $peg['peg_ket'] ?>"><?= $peg['peg_ket'] ?></option>
                                                                         <option value="Aktif">Aktif</option>
                                                                         <option value="Tidak Aktif">Tidak Aktif</option>
                                                                     </select>
@@ -172,24 +161,33 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>
-                                                                    Tempat Lahir *
+                                                                    Gelar Belakang
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" name="tempatlahir" value="<?= $dr['dok_tempat_lahir'] ?>" required>
+                                                                    <input type="text" class="form-control" name="gelarbelakang" value="<?= $peg['peg_gelar_belakang'] ?>">
                                                                 </td>
                                                                 <td colspan="2">
                                                                     <div class="modal-footer">
-                                                                        <a href="<?= base_url('dokter') ?>" class="btn btn-danger" data-dismiss="modal">Batal</a>
+                                                                        <a href="<?= base_url('pegawai') ?>" class="btn btn-danger" data-dismiss="modal">Batal</a>
                                                                         <button type="submit" class="btn btn-primary">Simpan Data</button>
                                                                     </div>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>
+                                                                    Tempat Lahir *
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" name="tempatlahir" required value="<?= $peg['peg_tempat_lahir'] ?>">
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
                                                                     Tanggal Lahir *
                                                                 </td>
                                                                 <td>
-                                                                    <input type="date" class="form-control" name="tgllahir" value="<?= $dr['dok_tgl_lahir'] ?>" required>
+                                                                    <input type="date" class="form-control" name="tgllahir" required value="<?= $peg['peg_tgl_lahir'] ?>">
                                                                 </td>
 
                                                             </tr>
@@ -199,7 +197,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <select class="form-control" name="jenkel" required>
-                                                                        <option value="<?= $dr['dok_jenkel'] ?>"><?php if ($dr['dok_jenkel'] == 'L') {
+                                                                        <option value="<?= $peg['peg_jenkel'] ?>"><?php if ($peg['peg_jenkel'] == 'L') {
                                                                                                                         echo 'Laki - laki';
                                                                                                                     } else {
                                                                                                                         echo 'Perempuan';
@@ -216,7 +214,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <select name="provb" class="form-control select2 select2-danger" id="provinsi" required>
-                                                                        <option value="<?= $dr['dok_prov'] ?>" selected="selected"><?= $dr['dok_prov'] ?></option>
+                                                                        <option value="<?= $peg['peg_prov'] ?>" selected="selected"><?= $peg['peg_prov'] ?></option>
                                                                         <?php foreach ($provinsi as $prov) {
                                                                             echo '<option value="' . $prov->id . '">' . $prov->nama . '</option>';
                                                                         } ?>
@@ -230,7 +228,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <select name="kabb" class="form-control" id="kabupaten" required>
-                                                                        <option value='<?= $dr['dok_kab'] ?>'><?= $dr['dok_kab'] ?></option>
+                                                                        <option value='<?= $peg['peg_kab'] ?>'><?= $peg['peg_kab'] ?></option>
                                                                     </select>
                                                                 </td>
 
@@ -241,7 +239,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <select name="kecb" class="form-control" id="kecamatan" required>
-                                                                        <option value="<?= $dr['dok_kec'] ?>"><?= $dr['dok_kec'] ?></option>
+                                                                        <option value="<?= $peg['peg_kec'] ?>"><?= $peg['peg_kec'] ?></option>
                                                                     </select>
                                                                 </td>
 
@@ -252,7 +250,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <select name="kelb" class="form-control" id="desa" required>
-                                                                        <option value="<?= $dr['dok_kel'] ?>"><?= $dr['dok_kel'] ?></option>
+                                                                        <option value="<?= $peg['peg_kel'] ?>"><?= $peg['peg_kel'] ?></option>
                                                                     </select>
                                                                 </td>
 
@@ -262,7 +260,7 @@
                                                                     Alamat *
                                                                 </td>
                                                                 <td>
-                                                                    <textarea name="alamat" class="form-control" onkeyup="this.value = this.value.toUpperCase()" required><?= $dr['dok_alamat'] ?></textarea>
+                                                                    <textarea name="alamat" class="form-control" onkeyup="this.value = this.value.toUpperCase()" required><?= $peg['peg_alamat'] ?></textarea>
                                                                 </td>
 
                                                             </tr>
@@ -271,7 +269,7 @@
                                                                     No. HP
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" name="nohp" value="<?= $dr['dok_nohp'] ?>">
+                                                                    <input type="text" class="form-control" name="nohp" maxlength="12" value="<?= $peg['peg_nohp'] ?>">
                                                                 </td>
 
                                                             </tr>
@@ -281,7 +279,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <select class="form-control" name="agama" required>
-                                                                        <option value="<?= $dr['dok_agama'] ?>"><?= $dr['dok_agama'] ?></option>
+                                                                        <option value="<?= $peg['peg_agama'] ?>"><?= $peg['peg_agama'] ?></option>
                                                                         <option value="Islam">Islam</option>
                                                                         <option value="Kristen">Kristen</option>
                                                                         <option value="Katholik">Katholik</option>
@@ -297,7 +295,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <select class="form-control" name="status" required>
-                                                                        <option value="<?= $dr['dok_status'] ?>"><?= $dr['dok_status'] ?></option>
+                                                                        <option value="<?= $peg['peg_status'] ?>"><?= $peg['peg_status'] ?></option>
                                                                         <option value="Belum Menikah">Belum Menikah</option>
                                                                         <option value="Menikah">Menikah</option>
                                                                         <option value="Duda">Duda</option>

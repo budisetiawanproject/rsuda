@@ -16,7 +16,7 @@ $total = $this->db->query("SELECT COUNT(*) AS total FROM v_registrasi WHERE reg_
 		<!-- Sidebar user panel (optional) -->
 		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 			<div class="image">
-				<img src="<?php if ($user['foto'] == '') { ?><?= base_url() ?>assets/foto/avatar5.png <?php } else { ?> <?= base_url() ?>assets/foto/<?= $user['foto']; ?> <?php } ?>" class="img-circle elevation-2" alt="User Image">
+				<img src="<?php if ($user['us_image'] == '') { ?><?= base_url() ?>assets/foto/avatar5.png <?php } else { ?> <?= base_url() ?>assets/foto/<?= $user['us_image']; ?> <?php } ?>" class="img-circle elevation-2" alt="User Image">
 			</div>
 			<div class="info">
 				<a href="<?= base_url('profil') ?>" class="d-block"><?= $user['us_nama'] ?></a><span class="right badge badge-success"><?= $user['role_name']; ?></span>
@@ -183,11 +183,11 @@ $total = $this->db->query("SELECT COUNT(*) AS total FROM v_registrasi WHERE reg_
 		<?php if ($session == '9') { ?>
 
 			<li class="nav-item">
-				<a href="<?= base_url('gudang') ?>" class="nav-link <?php if ($page2 == 'pasien' || $page2 == '') {
-																		echo 'active';
-																	} ?>">
+				<a href="<?= base_url('pergudangan') ?>" class="nav-link <?php if ($page2 == 'pasien' || $page2 == '') {
+																				echo 'active';
+																			} ?>">
 					<i class="far fa-user nav-icon"></i>
-					<p>Daftar Pasien</p>
+					<p>Input barang</p>
 				</a>
 			</li>
 			<li class="nav-item">

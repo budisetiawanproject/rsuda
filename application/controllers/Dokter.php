@@ -79,6 +79,7 @@ class Dokter extends CI_Controller
             $d = $today->diff($birthDate)->d;
             $data['umur'] =  $y . " tahun " . $m . " bulan " . $d . " hari";
 
+            $data['rujuk'] = $this->db->get('v_unit_kategori')->result_array();
             $data['rekam'] = $this->db->get_where('v_rekam_medis', ['pas_id' => $data['reg']['pas_id']])->result_array();
 
             $this->load->view('templates/headtable');

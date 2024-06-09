@@ -176,13 +176,13 @@ $page = $this->uri->segment(3);
                                                                         </tr>
                                                                         <tr>
                                                                             <td>
-                                                                                Tekanan Darah
+                                                                                Anamnesa
                                                                             </td>
                                                                             <td class="col-4">
-                                                                                : <?= $reg['rm_tekanan_darah'] ?>
+                                                                                <textarea class="form-control" name="dd" required></textarea>
                                                                             </td>
                                                                             <td>
-                                                                                Anamnesis Dokter
+                                                                                Pemeriksaan
                                                                             </td>
                                                                             <td class="col-4">
                                                                                 <textarea class="form-control" name="ad" required></textarea>
@@ -190,10 +190,10 @@ $page = $this->uri->segment(3);
                                                                         </tr>
                                                                         <tr>
                                                                             <td>
-                                                                                Frekuensi Nadi
+                                                                                Observasi
                                                                             </td>
                                                                             <td>
-                                                                                : <?= $reg['rm_frekuensi_nadi'] ?>
+                                                                                <textarea class="form-control" name="ad" required></textarea>
                                                                             </td>
                                                                             <td>
                                                                                 Diagnosa Dokter
@@ -204,16 +204,62 @@ $page = $this->uri->segment(3);
                                                                         </tr>
                                                                         <tr>
                                                                             <td>
-                                                                                Suhu Tubuh
+                                                                                Konsultasi
                                                                             </td>
                                                                             <td>
-                                                                                : <?= $reg['rm_suhu'] ?>
+                                                                                <textarea class="form-control" name="ro" required></textarea>
+                                                                            </td>
+                                                                            <td>
+                                                                                Resume Medis
+                                                                            </td>
+                                                                            <td>
+                                                                                <textarea class="form-control" name="ro" required></textarea>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="4" align="center">
+                                                                                <h5> <b> Rujukan </b> </h5>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                Rujuk
+                                                                            </td>
+                                                                            <td class="col-4">
+                                                                                <select class="form-control" name="ap">
+                                                                                    <option>Pilih Rujukan</option>
+                                                                                    <?php foreach ($rujuk as $rj) : ?>
+                                                                                        <option value="<?= $rj['uk_id']; ?>"><?= $rj['uk_nama']; ?></option>
+                                                                                    <?php endforeach; ?>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                            <td class="col-4">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="4" align="center">
+                                                                                <h5> <b> Keperawatan </b> </h5>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                Posisi Pasien *
+                                                                            </td>
+                                                                            <td class="col-4">
+                                                                                <select class="form-control" name="ap" required>
+                                                                                    <option>Pilih</option>
+                                                                                    <option value="Pulang">Pulang</option>
+                                                                                    <option value="Rujuk">Rujuk</option>
+                                                                                </select>
                                                                             </td>
                                                                             <td>
                                                                                 Resep Obat
                                                                             </td>
-                                                                            <td>
-                                                                                <textarea class="form-control" name="ro" required></textarea>
+                                                                            <td class="col-4">
+                                                                                <textarea class="form-control" name="ap"></textarea>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
@@ -291,38 +337,6 @@ $page = $this->uri->segment(3);
 <!-- /.row -->
 </div>
 </section>
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Unor</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form role="form" method="POST" action="<?= base_url('unor/tambah'); ?>" enctype="multipart/form-data">
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Kode Unor</label>
-                        <input onkeyup="this.value = this.value.toUpperCase()" type="text" class="form-control" name="kode" id="exampleInputEmail1" placeholder="kode">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Nama Unor</label>
-                        <textarea onkeyup="this.value = this.value.toUpperCase()" class="form-control" name="nama"></textarea>
-                    </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 
 

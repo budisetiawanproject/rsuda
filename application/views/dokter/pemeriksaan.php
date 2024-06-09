@@ -223,7 +223,7 @@ $page = $this->uri->segment(3);
                                                                         </tr>
                                                                         <tr>
                                                                             <td>
-                                                                                Rujuk
+                                                                                Rujukan Internal
                                                                             </td>
                                                                             <td class="col-4">
                                                                                 <select class="form-control" name="ap">
@@ -232,6 +232,19 @@ $page = $this->uri->segment(3);
                                                                                         <option value="<?= $rj['uk_id']; ?>"><?= $rj['uk_nama']; ?></option>
                                                                                     <?php endforeach; ?>
                                                                                 </select>
+                                                                            </td>
+                                                                            <td>
+
+                                                                            </td>
+                                                                            <td class="col-4">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                Rujukan Eksternal
+                                                                            </td>
+                                                                            <td class="col-4">
+                                                                                <textarea class="form-control" name="ap"></textarea>
                                                                             </td>
                                                                             <td>
 

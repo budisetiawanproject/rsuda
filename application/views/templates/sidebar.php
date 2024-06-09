@@ -103,14 +103,6 @@ $total = $this->db->query("SELECT COUNT(*) AS total FROM v_registrasi WHERE reg_
                             <p>Registrasi Pasien</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="<?= base_url('asisten') ?>" class="nav-link <?php if ($page == 'asisten') {
-                                                                                    echo 'active';
-                                                                                } ?>">
-                            <i class="far fa-user nav-icon"></i>
-                            <p>Asistensi Dokter</p>
-                        </a>
-                    </li>
             </ul>
             </li>
         <?php } ?>
@@ -122,14 +114,6 @@ $total = $this->db->query("SELECT COUNT(*) AS total FROM v_registrasi WHERE reg_
                                                                                     } ?>">
                     <i class="far fa-user nav-icon"></i>
                     <p>Registrasi Pasien</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?= base_url('operator') ?>" class="nav-link <?php if ($page == 'operator') {
-                                                                            echo 'active';
-                                                                        } ?>">
-                    <i class="far fa-user nav-icon"></i>
-                    <p>Asistensi Dokter</p>
                 </a>
             </li>
             </ul>
@@ -145,14 +129,6 @@ $total = $this->db->query("SELECT COUNT(*) AS total FROM v_registrasi WHERE reg_
                     <p>Registrasi Pasien</p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="<?= base_url('operator') ?>" class="nav-link <?php if ($page == 'operator') {
-                                                                            echo 'active';
-                                                                        } ?>">
-                    <i class="far fa-user nav-icon"></i>
-                    <p>Asistensi Dokter</p>
-                </a>
-            </li>
             </ul>
             </li>
         <?php } ?>
@@ -164,14 +140,6 @@ $total = $this->db->query("SELECT COUNT(*) AS total FROM v_registrasi WHERE reg_
                                                                             } ?>">
                     <i class="far fa-user nav-icon"></i>
                     <p>Daftar Pasien</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?= base_url('operator') ?>" class="nav-link <?php if ($page == 'operator') {
-                                                                            echo 'active';
-                                                                        } ?>">
-                    <i class="far fa-user nav-icon"></i>
-                    <p>Dokter</p>
                 </a>
             </li>
             </ul>

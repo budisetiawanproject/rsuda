@@ -20,7 +20,7 @@ class Dokter extends CI_Controller
             redirect('auth/logout');
         } else if ($data['user']['us_role_id'] == '1') {
             $data['session'] = $this->session->userdata('role');
-            $data['dokter'] = $this->db->get('t_dokter')->result_array();
+            $data['dokter'] = $this->db->get('v_dokter')->result_array();
             $data['akses'] = $this->db->get('t_role')->result_array();
 
             $this->load->view('templates/head');
@@ -44,11 +44,36 @@ class Dokter extends CI_Controller
             $data['session'] = $this->session->userdata('role');
             $data['provinsi'] = $this->m_wilayah->get_all_provinsi();
             $data['unit'] = $this->db->get('v_unit_kategori')->result_array();
+            $data['spesialis'] = $this->db->get('t_spesialis')->result_array();
 
             $this->load->view('templates/headtable');
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar', $data);
             $this->load->view('dokter/tambah');
+            $this->load->view('templates/footertable');
+        }
+    }
+
+
+    public function edit()
+    {
+        $data['code'] = $this->session->userdata('actid');
+        $data['dec'] = $this->secure->decrypt_url($data['code']);
+        $data['user'] = $this->db->get_where('v_user', ['us_id' => $data['dec']])->row_array();
+        if (empty($data['user'])) {
+            redirect('auth/logout');
+        } else if ($data['user']['us_role_id'] == '1') {
+            $data['session'] = $this->session->userdata('role');
+            $data['provinsi'] = $this->m_wilayah->get_all_provinsi();
+            $data['unit'] = $this->db->get('v_unit_kategori')->result_array();
+            $data['spesialis'] = $this->db->get('t_spesialis')->result_array();
+            $page = $this->uri->segment(3);
+            $data['dr'] = $this->db->get_where('v_dokter', ['dok_id' => $page])->row_array();
+
+            $this->load->view('templates/headtable');
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('dokter/edit');
             $this->load->view('templates/footertable');
         }
     }
@@ -117,6 +142,7 @@ class Dokter extends CI_Controller
             $data = [
                 'dok_id' => $kode,
                 'uk_id' => htmlspecialchars($this->input->post('unit')),
+                'spes_id' => htmlspecialchars($this->input->post('sp')),
                 'dok_nik' => htmlspecialchars($this->input->post('nik')),
                 'dok_nip' => htmlspecialchars($this->input->post('nip')),
                 'dok_nama' => htmlspecialchars($this->input->post('nama')),
@@ -144,6 +170,97 @@ class Dokter extends CI_Controller
                         Data Berhasil Tambah
                         </div>');
             redirect('dokter');
+        }
+    }
+
+    public function prosesedit()
+    {
+        $data['code'] = $this->session->userdata('actid');
+        $data['dec'] = $this->secure->decrypt_url($data['code']);
+        $data['user'] = $this->db->get_where('v_user', ['us_id' => $data['dec']])->row_array();
+        if (empty($data['user'])) {
+            redirect('auth/logout');
+        } else if ($data['user']['us_role_id'] == '1') {
+            $w = date('YmdHis');
+            $kode = $this->input->post('id');
+
+            $provb = $this->input->post('provb');
+            $kabb = $this->input->post('kabb');
+            $kecb = $this->input->post('kecb');
+            $kelb = $this->input->post('kelb');
+
+
+            $provnama = $this->db->get_where('wilayah_provinsi', ['id' => $provb])->row_array();
+            $kabnama = $this->db->get_where('wilayah_kabupaten', ['id' => $kabb])->row_array();
+            $kecnama = $this->db->get_where('wilayah_kecamatan', ['id' => $kecb])->row_array();
+            $kelnama = $this->db->get_where('wilayah_desa', ['id' => $kelb])->row_array();
+
+
+            if ($provnama) {
+                $update = [
+                    'uk_id' => htmlspecialchars($this->input->post('unit')),
+                    'spes_id' => htmlspecialchars($this->input->post('sp')),
+                    'dok_nik' => htmlspecialchars($this->input->post('nik')),
+                    'dok_nip' => htmlspecialchars($this->input->post('nip')),
+                    'dok_nama' => htmlspecialchars($this->input->post('nama')),
+                    'dok_gelar_depan' => htmlspecialchars($this->input->post('gelardepan')),
+                    'dok_gelar_belakang' => htmlspecialchars($this->input->post('gelarbelakang')),
+                    'dok_tempat_lahir' => htmlspecialchars($this->input->post('tempatlahir')),
+                    'dok_tgl_lahir' => htmlspecialchars($this->input->post('tgllahir')),
+                    'dok_jenkel' => htmlspecialchars($this->input->post('jenkel')),
+                    'dok_prov' => $provnama['nama'],
+                    'dok_kab' => $kabnama['nama'],
+                    'dok_kec' => $kecnama['nama'],
+                    'dok_kel' => $kelnama['nama'],
+                    'dok_alamat' => htmlspecialchars($this->input->post('alamat')),
+                    'dok_agama' => htmlspecialchars($this->input->post('agama')),
+                    'dok_status' => htmlspecialchars($this->input->post('status')),
+                    'dok_nohp' => htmlspecialchars($this->input->post('nohp')),
+                    'dok_pendidikan' => htmlspecialchars($this->input->post('pendidikan')),
+                    'dok_email' => htmlspecialchars($this->input->post('email')),
+                    'dok_tgl_gabung' => htmlspecialchars($this->input->post('tglgabung')),
+                    'dok_sts_peg' => htmlspecialchars($this->input->post('statuspeg')),
+                ];
+                $this->db->set($update);
+                $this->db->where(['dok_id' => $kode], 't_dokter');
+                $this->db->update('t_dokter');
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                            Data Berhasil Di Update
+                            </div>');
+                redirect('dokter');
+            } else {
+                $update = [
+                    'uk_id' => htmlspecialchars($this->input->post('unit')),
+                    'spes_id' => htmlspecialchars($this->input->post('sp')),
+                    'dok_nik' => htmlspecialchars($this->input->post('nik')),
+                    'dok_nip' => htmlspecialchars($this->input->post('nip')),
+                    'dok_nama' => htmlspecialchars($this->input->post('nama')),
+                    'dok_gelar_depan' => htmlspecialchars($this->input->post('gelardepan')),
+                    'dok_gelar_belakang' => htmlspecialchars($this->input->post('gelarbelakang')),
+                    'dok_tempat_lahir' => htmlspecialchars($this->input->post('tempatlahir')),
+                    'dok_tgl_lahir' => htmlspecialchars($this->input->post('tgllahir')),
+                    'dok_jenkel' => htmlspecialchars($this->input->post('jenkel')),
+                    'dok_prov' => $provb,
+                    'dok_kab' => $kabb,
+                    'dok_kec' => $kecb,
+                    'dok_kel' => $kelb,
+                    'dok_alamat' => htmlspecialchars($this->input->post('alamat')),
+                    'dok_agama' => htmlspecialchars($this->input->post('agama')),
+                    'dok_status' => htmlspecialchars($this->input->post('status')),
+                    'dok_nohp' => htmlspecialchars($this->input->post('nohp')),
+                    'dok_pendidikan' => htmlspecialchars($this->input->post('pendidikan')),
+                    'dok_email' => htmlspecialchars($this->input->post('email')),
+                    'dok_tgl_gabung' => htmlspecialchars($this->input->post('tglgabung')),
+                    'dok_sts_peg' => htmlspecialchars($this->input->post('statuspeg')),
+                ];
+                $this->db->set($update);
+                $this->db->where(['dok_id' => $kode], 't_dokter');
+                $this->db->update('t_dokter');
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                            Data Berhasil Di Update
+                            </div>');
+                redirect('dokter');
+            }
         }
     }
 

@@ -16,7 +16,7 @@ $total = $this->db->query("SELECT COUNT(*) AS total FROM v_registrasi WHERE reg_
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="<?php if ($user['us_image'] == '') { ?><?= base_url() ?>assets/foto/avatar5.png <?php } else { ?> <?= base_url() ?>assets/img/<?= $user['us_image']; ?> <?php } ?>" class="img-circle elevation-2" alt="User Image">
+                <img src="<?php if ($user['us_image'] == '') { ?><?= base_url() ?>assets/foto/avatar5.png <?php } else { ?> <?= base_url() ?>assets/foto/<?= $user['us_image']; ?> <?php } ?>" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="<?= base_url('profil') ?>" class="d-block"><?= $user['us_nama'] ?></a><span class="right badge badge-success"><?= $user['role_name']; ?></span>
@@ -173,6 +173,30 @@ $total = $this->db->query("SELECT COUNT(*) AS total FROM v_registrasi WHERE reg_
                             <p>Data Pasien</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('registrasi/irja') ?>" class="nav-link <?php if ($page2 == 'irja') {
+                                                                                            echo 'active';
+                                                                                        } ?>">
+                            <i class="far fa-check-circle nav-icon"></i>
+                            <p>Registrasi IRJA</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('registrasi/ugd') ?>" class="nav-link <?php if ($page2 == 'ugd') {
+                                                                                        echo 'active';
+                                                                                    } ?>">
+                            <i class="far fa-check-circle nav-icon"></i>
+                            <p>Registrasi UGD</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('registrasi/irna') ?>" class="nav-link <?php if ($page == 'irna') {
+                                                                                            echo 'active';
+                                                                                        } ?>">
+                            <i class="far fa-check-circle nav-icon"></i>
+                            <p>Registrasi IRNA</p>
+                        </a>
+                    </li>
             </li>
             </ul>
             </li>
@@ -240,10 +264,10 @@ $total = $this->db->query("SELECT COUNT(*) AS total FROM v_registrasi WHERE reg_
                 </a>
             </li>
 
-            <li class="nav-item has-treeview <?php if ($page == 'dokter' || $page == 'spesialis' || $page == 'wisata') {
+            <li class="nav-item has-treeview <?php if ($page == 'dokter' || $page == 'show' || $page == 'wisata') {
                                                     echo 'menu-open';
                                                 } ?>">
-                <a href="#" class="nav-link <?php if ($page == 'dokter' || $page == 'spesialis' || $page == 'wisata') {
+                <a href="#" class="nav-link <?php if ($page == 'dokter' || $page == 'show' || $page == 'wisata') {
                                                 echo 'active';
                                             } ?>">
                     <i class="nav-icon fas fa-users"></i>

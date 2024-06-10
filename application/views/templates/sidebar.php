@@ -203,6 +203,25 @@ $total = $this->db->query("SELECT COUNT(*) AS total FROM v_registrasi WHERE reg_
 		<?php } ?>
 		<!-- end Riyan dari Menu Pergudangan -->
 
+		<!-- tambahan riyan utk apotik -->
+
+		<?php if ($session == '8') { ?>
+
+			<li class="nav-item">
+				<a href="<?= base_url('apotik') ?>" class="nav-link <?php if ($page2 == 'inputdata' || $page2 == '') {
+																		echo 'active';
+																	} ?>">
+					<i class="far fa-user nav-icon"></i>
+					<p>Input Data</p>
+				</a>
+			</li>
+
+			</ul>
+			</li>
+		<?php } ?>
+
+		<!-- end Riyan dari Menu Apotik -->
+
 
 
 
